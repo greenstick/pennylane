@@ -363,15 +363,7 @@ class CircuitDrawer:
                 rendered_string += s
 
             rendered_string += "\n"
-
-        for symbol, cache in [
-            ("U", self.representation_resolver.unitary_matrix_cache),
-            ("H", self.representation_resolver.hermitian_matrix_cache),
-            ("M", self.representation_resolver.matrix_cache),
-        ]:
-            for idx, matrix in enumerate(cache):
-                rendered_string += f"{symbol}{idx} =\n{matrix}\n"
-
+            
         # Restrict CLI print width to max_length
         if self.max_length is not None:
             wires = rendered_string.split("\n")
@@ -393,5 +385,13 @@ class CircuitDrawer:
                     else:
                         rendered_substrings.append(f" {wire[i * self.max_length + 1:]}"[:-1])
             rendered_string = "\n".join(rendered_substrings)
+
+        for symbol, cache in [
+            ("U", self.representation_resolver.unitary_matrix_cache),
+            ("H", self.representation_resolver.hermitian_matrix_cache),
+            ("M", self.representation_resolver.matrix_cache),
+        ]:
+            for idx, matrix in enumerate(cache):
+                rendered_string += f"{symbol}{idx} =\n{matrix}\n"
 
         return rendered_string
